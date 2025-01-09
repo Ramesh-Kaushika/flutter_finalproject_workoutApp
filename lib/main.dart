@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() {
   runApp(const WorkoutApp());
@@ -9,15 +10,38 @@ class WorkoutApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WorkoutDashboard(),
+      home: const WorkoutDashboard(),
+      routes: {
+        '/settings': (context) => const SettingsScreen(),
+      },
     );
   }
 }
 
-class WorkoutDashboard extends StatelessWidget {
+class WorkoutDashboard extends StatefulWidget {
   const WorkoutDashboard({super.key});
+
+  @override
+  _WorkoutDashboardState createState() => _WorkoutDashboardState();
+}
+
+class _WorkoutDashboardState extends State<WorkoutDashboard>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,146 +55,105 @@ class WorkoutDashboard extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: Colors.red,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+        ],
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(icon: Icon(Icons.dashboard), text: "Dashboard"),
+            Tab(icon: Icon(Icons.timer), text: "Stopwatch"),
+          ],
+        ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header Section
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Welcome Back,",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      "John Doe",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                CircleAvatar(
-                  radius: 30,
-                  backgroundImage:
-                      AssetImage('assets/profile.jpg'), // Add a profile image
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _buildDashboardTab(context),
+          const StopwatchTab(),
+        ],
+      ),
+    );
+  }
 
-            // Statistics Section
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildStatistic("Calories", "560", "kcal"),
-                    _buildStatistic("Steps", "7,800", "steps"),
-                    _buildStatistic("Workouts", "12", "sessions"),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Workout Categories
-            const Text(
-              "Workout Categories",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                _buildCategoryCard("Cardio", Icons.directions_run, Colors.blue),
-                _buildCategoryCard(
-                    "Strength", Icons.fitness_center, Colors.orange),
-                _buildCategoryCard(
-                    "Yoga", Icons.self_improvement, Colors.green),
-                _buildCategoryCard("HIIT", Icons.timer, Colors.red),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // Action Buttons
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
+  Widget _buildDashboardTab(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6.0), // Adjust text padding
-                      ),
-                      onPressed: () {
-                        // Start Workout action
-                      },
-                      child: _buildActionButton(
-                          context, "Start Workout", Colors.green),
-                    ),
+                  Text(
+                    "Welcome Back,",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                   ),
-                  const SizedBox(width: 8), // Spacing between buttons
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6.0), // Adjust text padding
-                      ),
-                      onPressed: () {
-                        // View Progress action
-                      },
-                      child: _buildActionButton(
-                          context, "View Progress", Colors.blue),
-                    ),
-                  ),
-                  const SizedBox(width: 8), // Spacing between buttons
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6.0), // Adjust text padding
-                      ),
-                      onPressed: () {
-                        // Settings action
-                      },
-                      child:
-                          _buildActionButton(context, "Settings", Colors.grey),
-                    ),
+                  SizedBox(height: 4),
+                  Text(
+                    "John Doe",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
+              CircleAvatar(
+                radius: 30,
+                backgroundImage:
+                    AssetImage('assets/profile.jpg'), // Add a profile image
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Statistics Section
+          Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildStatistic("Calories", "560", "kcal"),
+                  _buildStatistic("Steps", "7,800", "steps"),
+                  _buildStatistic("Workouts", "12", "sessions"),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+
+          // Workout Categories
+          const Text(
+            "Workout Categories",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+          GridView.count(
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              _buildCategoryCard("Cardio", Icons.directions_run, Colors.blue),
+              _buildCategoryCard(
+                  "Strength", Icons.fitness_center, Colors.orange),
+              _buildCategoryCard(
+                  "Yoga", Icons.self_improvement, Colors.green),
+              _buildCategoryCard("HIIT", Icons.timer, Colors.red),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -208,20 +191,133 @@ class WorkoutDashboard extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildActionButton(BuildContext context, String label, Color color) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+class StopwatchTab extends StatefulWidget {
+  const StopwatchTab({super.key});
+
+  @override
+  _StopwatchTabState createState() => _StopwatchTabState();
+}
+
+class _StopwatchTabState extends State<StopwatchTab> {
+  late Stopwatch _stopwatch;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _stopwatch = Stopwatch();
+    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (_stopwatch.isRunning) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String formattedTime = _formatTime(_stopwatch.elapsedMilliseconds);
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            formattedTime,
+            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (_stopwatch.isRunning) {
+                    _stopwatch.stop();
+                  } else {
+                    _stopwatch.start();
+                  }
+                  setState(() {});
+                },
+                child: Text(_stopwatch.isRunning ? "Pause" : "Start"),
+              ),
+              const SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () {
+                  _stopwatch.reset();
+                  setState(() {});
+                },
+                child: const Text("Reset"),
+              ),
+            ],
+          ),
+        ],
       ),
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('$label tapped!')),
-        );
-      },
-      child: Text(label, style: const TextStyle(fontSize: 16)),
+    );
+  }
+
+  String _formatTime(int milliseconds) {
+    int seconds = (milliseconds / 1000).truncate();
+    int minutes = (seconds / 60).truncate();
+    seconds = seconds % 60;
+    int millis = (milliseconds % 1000) ~/ 10;
+
+    return "${_twoDigits(minutes)}:${_twoDigits(seconds)}.${_twoDigits(millis)}";
+  }
+
+  String _twoDigits(int n) => n.toString().padLeft(2, "0");
+}
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Settings"),
+        backgroundColor: Colors.grey,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Log Out"),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text("Log Out"),
+                    content: const Text("Are you sure you want to log out?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Cancel"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Log Out"),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

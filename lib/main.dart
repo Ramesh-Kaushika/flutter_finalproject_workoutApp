@@ -23,7 +23,12 @@ class WorkoutDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Workout App'),
+        title: const Text(
+          'Workout App',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.red,
       ),
@@ -115,13 +120,14 @@ class WorkoutDashboard extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                         padding: const EdgeInsets.symmetric(vertical: 6.0), // Adjust text padding
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6.0), // Adjust text padding
                       ),
-                      
                       onPressed: () {
                         // Start Workout action
                       },
-                       child: _buildActionButton(context, "Start Workout", Colors.green),
+                      child: _buildActionButton(
+                          context, "Start Workout", Colors.green),
                     ),
                   ),
                   const SizedBox(width: 8), // Spacing between buttons
@@ -132,28 +138,32 @@ class WorkoutDashboard extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                         padding: const EdgeInsets.symmetric(vertical: 6.0), // Adjust text padding
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6.0), // Adjust text padding
                       ),
                       onPressed: () {
                         // View Progress action
                       },
-                      child: _buildActionButton(context, "View Progress", Colors.blue),
+                      child: _buildActionButton(
+                          context, "View Progress", Colors.blue),
                     ),
                   ),
                   const SizedBox(width: 8), // Spacing between buttons
                   Expanded(
-                    child:  ElevatedButton(
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                         padding: const EdgeInsets.symmetric(vertical: 6.0 ), // Adjust text padding
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6.0), // Adjust text padding
                       ),
                       onPressed: () {
                         // Settings action
                       },
-                      child: _buildActionButton(context, "Settings", Colors.grey),
+                      child:
+                          _buildActionButton(context, "Settings", Colors.grey),
                     ),
                   ),
                 ],

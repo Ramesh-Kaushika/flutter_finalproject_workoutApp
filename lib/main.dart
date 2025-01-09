@@ -121,7 +121,7 @@ class WorkoutDashboard extends StatelessWidget {
                       onPressed: () {
                         // Start Workout action
                       },
-                      child: const Text("Start Workout"),
+                       child: _buildActionButton(context, "Start Workout", Colors.green),
                     ),
                   ),
                   const SizedBox(width: 8), // Spacing between buttons
@@ -137,7 +137,7 @@ class WorkoutDashboard extends StatelessWidget {
                       onPressed: () {
                         // View Progress action
                       },
-                      child: const Text("View Progress"),
+                      child: _buildActionButton(context, "View Progress", Colors.blue),
                     ),
                   ),
                   const SizedBox(width: 8), // Spacing between buttons
@@ -153,7 +153,7 @@ class WorkoutDashboard extends StatelessWidget {
                       onPressed: () {
                         // Settings action
                       },
-                      child: const Text("Settings"),
+                      child: _buildActionButton(context, "Settings", Colors.grey),
                     ),
                   ),
                 ],

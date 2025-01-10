@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:workout_app/bmi.dart';
+import 'package:workout_app/scr/nutritious_menu.dart';
+import 'package:workout_app/workout_section.dart';
 
 void main() {
   runApp(const WorkoutApp());
@@ -147,32 +149,48 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
             mainAxisSpacing: 10,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _buildCategoryCard("Workout Section", Icons.directions_run, Colors.blue, () {}),
               _buildCategoryCard(
-                  "Meal Plans", Icons.fitness_center, Colors.orange, () {}),
+                  "Workout Section", Icons.directions_run, Colors.blue,   () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const InputPage()),
+                  );
+                },),
               _buildCategoryCard(
-  "BMI",
-  Icons.self_improvement,
-  Colors.green,
-  () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const BMICalculatorPage()),
-    );
-  },
-),
-
-             _buildCategoryCard(
-      "HIIT",
-      Icons.timer,
-      Colors.red,
-      () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const StopwatchTab()),
-        );
-      },
-    ),
+                "Meal Plans",
+                Icons.fitness_center,
+                Colors.orange,
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MealPlanList()),
+                  );
+                },
+              ),
+              _buildCategoryCard(
+                "BMI",
+                Icons.self_improvement,
+                Colors.green,
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BMICalculatorPage()),
+                  );
+                },
+              ),
+              _buildCategoryCard(
+                "HIIT",
+                Icons.timer,
+                Colors.red,
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StopwatchTab()),
+                  );
+                },
+              ),
             ],
           ),
         ],
@@ -196,27 +214,27 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
     );
   }
 
- Widget _buildCategoryCard(String title, IconData icon, Color color, VoidCallback onTap) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 40, color: color),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
+  Widget _buildCategoryCard(
+      String title, IconData icon, Color color, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40, color: color),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }
 
 class StopwatchTab extends StatefulWidget {

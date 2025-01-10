@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:workout_app/bmi.dart';
+
 void main() {
   runApp(const WorkoutApp());
 }
@@ -145,10 +147,21 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
             mainAxisSpacing: 10,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _buildCategoryCard("Cardio", Icons.directions_run, Colors.blue, () {}),
+              _buildCategoryCard("Workout Section", Icons.directions_run, Colors.blue, () {}),
               _buildCategoryCard(
-                  "Strength", Icons.fitness_center, Colors.orange, () {}),
-              _buildCategoryCard("Yoga", Icons.self_improvement, Colors.green, () {}),
+                  "Meal Plans", Icons.fitness_center, Colors.orange, () {}),
+              _buildCategoryCard(
+  "BMI",
+  Icons.self_improvement,
+  Colors.green,
+  () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const BMICalculatorPage()),
+    );
+  },
+),
+
              _buildCategoryCard(
       "HIIT",
       Icons.timer,
@@ -183,27 +196,27 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
     );
   }
 
-  Widget _buildCategoryCard(
-      String title, IconData icon, Color color, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 40, color: color),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+ Widget _buildCategoryCard(String title, IconData icon, Color color, VoidCallback onTap) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 40, color: color),
+          const SizedBox(height: 10),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 class StopwatchTab extends StatefulWidget {

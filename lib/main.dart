@@ -99,7 +99,7 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
                   ),
                   SizedBox(height: 4),
                   Text(
-                    "John Doe",
+                    "Ramesh Kaushika",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -107,7 +107,8 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
               CircleAvatar(
                 radius: 30,
                 backgroundImage:
-                    AssetImage('assets/profile.jpg'), // Add a profile image
+                    AssetImage('assets/wallpaperflare.com_wallpaper-13.jpg'), // Add a profile image
+                    
               ),
             ],
           ),

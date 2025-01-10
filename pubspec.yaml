@@ -59,8 +59,23 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/wallpaperflare.com_wallpaper-13.jpg
+
+    - lib/assets/videos/How_to_Do_PUSH_UPS.mp4
+    - lib/assets/videos/How_to_Do_SIT_UPS_(1).mp4
+    - lib/assets/videos/How_to_Do_SQUATS.mp4
+    - lib/assets/videos/How_to_Do_DYNAMIC_CHEST.mp4
+    - lib/assets/videos/How_to_Do_RUSSIAN_TWIST.mp4
+    - lib/assets/videos/How_to_Do_STANDING_BICYCLE_CRUNCHES.mp4
+    - lib/assets/videos/How_to_Do_SIDE_CRUNCHES_(1).mp4
+    - lib/assets/videos/How_to_Do_JUMPING_JACKS.mp4
+    - lib/assets/videos/How_to_Do_HIGH_STEPPING.mp4
+    - lib/assets/videos/How_to_Do_HEEL_TOUCH.mp4
+    - lib/assets/videos/How_to_Do_FLUTTER_KICKS_(1).mp4
+    - lib/assets/videos/How_to_Do_COBRA_STRETCH.mp4
+    - lib/assets/videos/How_to_Do_ABDOMINAL_CRUNCHES.mp4
+    - lib/assets/videos/How_to_Do_LEG_RAISES.mp4
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

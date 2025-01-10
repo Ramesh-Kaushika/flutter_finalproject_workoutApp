@@ -106,9 +106,8 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
               ),
               CircleAvatar(
                 radius: 30,
-                backgroundImage:
-                    AssetImage('assets/wallpaperflare.com_wallpaper-13.jpg'), // Add a profile image
-                    
+                backgroundImage: AssetImage(
+                    'assets/wallpaperflare.com_wallpaper-13.jpg'), // Add a profile image
               ),
             ],
           ),
@@ -117,8 +116,8 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
           // Statistics Section
           Card(
             elevation: 4,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -146,12 +145,21 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
             mainAxisSpacing: 10,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _buildCategoryCard("Cardio", Icons.directions_run, Colors.blue),
+              _buildCategoryCard("Cardio", Icons.directions_run, Colors.blue, () {}),
               _buildCategoryCard(
-                  "Strength", Icons.fitness_center, Colors.orange),
-              _buildCategoryCard(
-                  "Yoga", Icons.self_improvement, Colors.green),
-              _buildCategoryCard("HIIT", Icons.timer, Colors.red),
+                  "Strength", Icons.fitness_center, Colors.orange, () {}),
+              _buildCategoryCard("Yoga", Icons.self_improvement, Colors.green, () {}),
+             _buildCategoryCard(
+      "HIIT",
+      Icons.timer,
+      Colors.red,
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const StopwatchTab()),
+        );
+      },
+    ),
             ],
           ),
         ],
@@ -175,20 +183,24 @@ class _WorkoutDashboardState extends State<WorkoutDashboard>
     );
   }
 
-  Widget _buildCategoryCard(String title, IconData icon, Color color) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 40, color: color),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
+  Widget _buildCategoryCard(
+      String title, IconData icon, Color color, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40, color: color),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }
